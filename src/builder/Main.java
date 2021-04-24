@@ -24,9 +24,8 @@ public class Main {
 
             switch (userInput) {
                 case 1://uruchomienie zegara
-                    mainClock.run();
-
-                    mainClock.getTime();
+                    mainClock.start();
+                    System.out.println("Uruchomiono zegar");
                     break;
                 case 3:
                     mainClock.addDisplay(kitchen);

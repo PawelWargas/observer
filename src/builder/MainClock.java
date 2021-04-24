@@ -11,8 +11,8 @@ public class MainClock extends Thread{
     private volatile List<displays> displaysList = new ArrayList<>();
     private volatile boolean running = true;
     private LocalTime timePoint;
-    public volatile int min;
-    public volatile int sec;
+    private int min;
+    private int sec;
 
 
     public synchronized void addDisplay(displays someDisplay) {
@@ -32,6 +32,7 @@ public class MainClock extends Thread{
                     timePoint = LocalTime.now();
                     min = timePoint.getMinute();
                     sec = timePoint.getSecond();
+                    notifyDisplays();
                     Thread.sleep(5000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(MainClock.class.getName()).log(Level.SEVERE, null, ex);
@@ -40,30 +41,14 @@ public class MainClock extends Thread{
         }
     }
 
-    public void getTime(){
-        notifyDisplays();
-    }
-
-
     public synchronized void stopClock(){
         running = false;
     }
 
 
-    public synchronized void notifyDisplays(){
+    private void notifyDisplays(){
         for(displays Display : displaysList){
             Display.update(min,sec);
         }
     }
-
-
-    //public int returnHours(){
-     //   return sec;
-    //}
-
-    //public synchronized int returnMinutes(){
-    //    return min;
-   // }
-
-
 }
