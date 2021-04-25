@@ -13,6 +13,7 @@ public class MainClock extends Thread{
     private LocalTime timePoint;
     private int min;
     private int sec;
+    private int hr;
 
 
     public synchronized void addDisplay(displays someDisplay) {
@@ -30,10 +31,13 @@ public class MainClock extends Thread{
             while (running) {
                 try {
                     timePoint = LocalTime.now();
+                    hr = timePoint.getHour();
                     min = timePoint.getMinute();
                     sec = timePoint.getSecond();
+                    if(sec==0)
                     notifyDisplays();
-                    Thread.sleep(5000);
+
+                    Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(MainClock.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -48,7 +52,7 @@ public class MainClock extends Thread{
 
     private void notifyDisplays(){
         for(displays Display : displaysList){
-            Display.update(min,sec);
+            Display.update(hr,min);
         }
     }
 }

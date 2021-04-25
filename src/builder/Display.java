@@ -1,6 +1,5 @@
 package builder;
 
-import java.time.LocalTime;
 
 public class Display implements displays{
     private String name;
@@ -12,7 +11,7 @@ public class Display implements displays{
 
     @Override
     public void update(int min, int sec) {
-        System.out.println("Czas w " + name + ": "+ min+" : "+ sec);
+        System.out.println("Czas w " + name + ""+ min+" : "+ sec);
     }
 
     public void setName(String name){
