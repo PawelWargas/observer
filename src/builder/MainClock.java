@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 public class MainClock extends Thread{
     private volatile List<displays> displaysList = new ArrayList<>();
     private volatile boolean running = true;
+    private volatile boolean stop = true;
     private LocalTime timePoint;
     private int min;
     private int sec;
@@ -25,28 +26,39 @@ public class MainClock extends Thread{
         displaysList.removeIf(displays -> displays.equals(someDisplay));
     }
 
+    public synchronized void reStart(){
+        running = true;
+    }
+
+
 
     public void run() {
         {
-            while (running) {
-                try {
-                    timePoint = LocalTime.now();
-                    hr = timePoint.getHour();
-                    min = timePoint.getMinute();
-                    sec = timePoint.getSecond();
-                    if(sec==0)
-                    notifyDisplays();
-
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(MainClock.class.getName()).log(Level.SEVERE, null, ex);
+            while (stop){
+                while (running) {
+                    try {
+                        timePoint = LocalTime.now();
+                        hr = timePoint.getHour();
+                        min = timePoint.getMinute();
+                        sec = timePoint.getSecond();
+                        if(sec==0)
+                        notifyDisplays();
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(MainClock.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-            }
+           }
         }
     }
 
     public synchronized void stopClock(){
         running = false;
+    }
+
+    public synchronized void exit(){
+        running = false;
+        stop = false;
     }
 
 

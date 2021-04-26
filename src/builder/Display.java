@@ -1,6 +1,8 @@
 package builder;
 
 
+import java.util.Objects;
+
 public class Display implements displays{
     private String name;
 

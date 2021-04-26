@@ -5,7 +5,8 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        int userInput=2;
+        int userInput = 2;
+        int firstRun = 0;
 
 	    Display kitchen = new Display("Kuchnia ");
 	    Display room = new Display("Pokój ");
@@ -15,8 +16,8 @@ public class Main {
 	    MainClock mainClock = new MainClock();
 
         Scanner cin = new Scanner(System.in);
-        System.out.println("Menu\n1. Włącz zegar \n2. Dodaj zegar kuchenny \n3. Dodaj zegar pokojowy \n4. Dodaj zegar ogrowdowy ");
-        System.out.println("5. Usuń zegar kuchenny\n6. Usuń zegar pokojowy \n7. Usuń zegar ogrodowy");
+        System.out.println("Menu\n1. Włącz zegar \n2. Dodaj zegar kuchenny \n3. Dodaj zegar pokojowy \n4. Dodaj zegar ogrodowy ");
+        System.out.println("5. Usuń zegar kuchenny\n6. Usuń zegar pokojowy \n7. Usuń zegar ogrodowy \n8. Zatrzymaj zegar \n0. Wyjście");
 
         while(userInput!=0) {
             if (cin.hasNextInt())
@@ -25,7 +26,13 @@ public class Main {
 
             switch (userInput) {
                 case 1://uruchomienie zegara
-                    mainClock.start();
+                    if(firstRun==0){
+                        mainClock.start();
+
+                        firstRun++;
+                    }else{
+                        mainClock.reStart();
+                    }
                     System.out.println("Uruchomiono zegar");
                     break;
                 case 2:
@@ -52,9 +59,15 @@ public class Main {
                     mainClock.removeDisplay(garden);
                     System.out.println("Usunięto wyświetlacz ogrodowy");
                     break;
+                case 8:
+                    mainClock.stopClock();
+                    System.out.println("Zatrzymano zegar");
+                    break;
+
             }
         }
-        mainClock.stopClock();
+
+        mainClock.exit();
         cin.close();
     }
 }
